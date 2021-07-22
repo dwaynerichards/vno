@@ -23,7 +23,8 @@ export default class Factory {
   private _title!: string;
   private _hostname!: string;
   private _server!: string;
-  //private means only accessible within instance, static refers to this property is shared amongst all instances, instance is availalbe to all instances of factory
+  //private means only accessible within instance
+  //static refers to this property is shared amongst all instances, instance is availalbe to all instances of factory
   private static instance: Factory;
   private constructor(options?: Config) {
     this.storage = Storage.create();
@@ -121,7 +122,7 @@ export default class Factory {
     const decoder = new TextDecoder("utf-8");
 
     const styles = decoder.decode(
-      Deno.readFileSync(Deno.cwd()+"/vno-build/style.css"),
+      Deno.readFileSync(Deno.cwd() + "/vno-build/style.css"),
     );
 
     Deno.writeTextFileSync(
