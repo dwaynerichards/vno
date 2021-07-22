@@ -11,6 +11,7 @@ async function watchChanges(
   const watcher = Deno.watchFs(path);
   //watches a path which (currently not given specific path)
   for await (const event of watcher) {
+    console.log(event);
     if (/modify|create/.test(event.kind)) {
       await onChange();
       return;
@@ -23,7 +24,6 @@ async function watchChanges(
 interface watchOptions {
   ssr?: boolean;
 }
-
 
 async function watchAndRebuild(options: watchOptions) {
   const ssrFlag = options?.ssr ? " --ssr" : "";
@@ -44,7 +44,7 @@ async function watchAndRebuild(options: watchOptions) {
     // its all resolved. but because its recursive then will always stay in microtask queue, since the
     // function calls itself again. in this case, since we do NOT have an await keyword,
     // it doesn't matter here because nothing else after line 33 suspend the callback untill this resumes
-    watchAndRebuild(options);
+    await watchAndRebuild(options);
   });
 }
 
